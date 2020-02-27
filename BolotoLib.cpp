@@ -100,7 +100,8 @@ void MovingUlits (int x0, int y0, int dx, int dy)
     double HBody;
     COLORREF ColBody;
     COLORREF ColHead;
-
+    int znak;
+    if (dx<0) znak = -1; else znak=1;
     double posHead = 0.9;
    // txSetColor (RGB(red * 0.5, green * 0.5, blue * 0.5),2);
 
@@ -109,7 +110,7 @@ void MovingUlits (int x0, int y0, int dx, int dy)
         txBegin();
         ColBody=RGB(180, 200, 100);
         ColHead=RGB(200, 200, 10);
-        WBody=50;
+        WBody=50*znak;
         HBody=60;
         DrawBack();
         x=xFirst;
@@ -127,7 +128,7 @@ void MovingUlits (int x0, int y0, int dx, int dy)
             DrawLapa ( xF-20, yF-50, 40, 180-(tF+4)%5*15, 40,  90-tF%5*10, 20, 30,  90-tF%10*4, 50, TX_GREEN);
 
             DrawUlit (x, y, WBody, HBody, ColBody, ColHead);
-            x -= WBody*2.5;
+            x -= abs(WBody)*2.5;
             WBody *= 0.9;
             HBody *= 0.9;
             ColBody = Darks(ColBody, 1.05);
@@ -148,6 +149,7 @@ void DrawBack (void)
     txRectangle(0, 0, txGetExtentX(), txGetExtentY() / 4);
     txSetFillColor (RGB(0, 200, 200));
     txRectangle ( 0, txGetExtentY() / 4, txGetExtentX(), txGetExtentY() );
+    DrawOblako (100, 20, 5);
     }
 
 void DrawUlit (int x0, int y0, int dx, int dy, COLORREF ColBody, COLORREF ColHead)
@@ -168,24 +170,22 @@ void DrawUlit (int x0, int y0, int dx, int dy, COLORREF ColBody, COLORREF ColHea
 
 void DrawBird (int x0, int y0, int WLapa, int HLapa, int WBody, int HBody, int WHead, int HHead, int dxHead, COLORREF ColBird)
     {
-    int red = txExtractColor (ColBird, TX_RED);
-    int green = txExtractColor (ColBird, TX_GREEN);
-    int blue = txExtractColor (ColBird, TX_BLUE);
-
     int znak = 1;
-    double posHead =0.75;
-    if (dxHead<0) znak=-1;
+    double posHead = 0.75;
+    if (dxHead<0)
+        {
+        znak = -1;
+        }
 
-    DrawLapa (x0, y0-HLapa, HLapa, 90, 0, 0, 30, 40, 90-znak*90, 50, RGB(255,0,0) );
+    DrawLapa (x0, y0-HLapa, HLapa, 270, 0, 0, HBody/4, WBody/4, 90-znak*90, 50, RGB(255,0,0));
 
-    txSetColor (RGB(red * 0.5, green * 0.5, blue * 0.5),3);
+    txSetColor (Darks(ColBird, 0.5),1);
     txSetFillColor (ColBird);
 
     txEllipse (x0-WBody / 2, y0-HLapa , x0+WBody / 2, y0-HLapa-HBody);
     txEllipse (x0+dxHead+WHead/2, y0-HLapa-HBody*posHead, x0+dxHead-WHead/2, y0-HLapa-HBody*posHead-HHead);
     txSetColor (RGB(0, 0, 0), 2);
     txSetFillColor (RGB(255,255,255));
-
     txEllipse ( x0+dxHead+znak*(0.1*WHead), y0-HLapa-HBody*posHead-HHead*0.5, x0+dxHead+znak*(0.25*WHead), y0-HLapa-HBody*posHead-0.7*HHead );
     txSetColor (RGB(255,0,0), 2);
     txSetFillColor (RGB(255, 0,0));

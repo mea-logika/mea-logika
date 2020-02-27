@@ -1,13 +1,19 @@
 #include "TXLib.h"
+#include "Mult_lib.cpp"
 #include <cmath>
 #include "BolotoLib.cpp"
+
 //----------------------------------------------------------------------------------
 int main()
     {
 
+
     txCreateWindow (800, 600);
-    MovingFrog(100, 400, 5, -1);
-    MovingUlits(350, 480, 3, 0);
+    //MovingFrog(100, 400, 5, -1);
+    //MovingUlits(350, 480, 3, 0);
+    //MovingUlits(600,480,-4, 0);
+
+    DrawBird(550, 500, 0, 20, 100, 50, 50, 30, 20, TX_YELLOW);
     //MovingBirds(150, 600, 2, 250);
     /*
     DrawBird (150, 400, 40, 20, 200, 100, 70, 70, 70, RGB(250, 250, 50));
